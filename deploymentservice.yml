@@ -1,20 +1,20 @@
 apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
 kind: Deployment
 metadata:
-  name: deployment-name
+  name: mydeployment
 spec:
   selector:
     matchLabels:
-      app: app-labels
-  replicas: 2
+      app: myweb
+  replicas: 3
   template:
     metadata:
       labels:
-        app: app-labels
+        app: myweb
     spec:
       containers:
       - name: nginx
-        image: ledangtuanbk:test-nginx
+        image: ledangtuanbk/test-nginx:latest
         resources:
           requests:
             cpu: 100m
@@ -32,7 +32,7 @@ kind: Service
 metadata:
   name: frontend
   labels:
-    app: app-labels
+    app: myweb
 spec:
   type: LoadBalancer
   ports:
@@ -40,4 +40,4 @@ spec:
   - port: 8088
     targetPort: 80
   selector:
-    app: app-labels       
+    app: myweb
